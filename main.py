@@ -5,6 +5,7 @@ import threading
 import time
 import pickle
 import numpy
+import sys
 
 #Consts
 HOST            = "127.0.0.1"        
@@ -36,7 +37,6 @@ def sendtodiscord():
     while True:
         time.sleep(DISCORDCOOLDOWN)
         if datatosend.size != 0:
-            print(datatosend.size)
             data = datatosend[len(datatosend) -1 ]
             datatosend = numpy.delete(datatosend, -1)
             x = requests.post(SERVER,files=(dict(file=data)),headers=AUTHORIZATION)
@@ -77,11 +77,12 @@ def cooldowncheck():
 def closeserver():
     with open('blacklist.pickle', 'wb') as handle:
         pickle.dump(blacklist, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    sys.exit(0)
 
 def pushdata(data):
     global datatosend
     datatosend = numpy.append(datatosend,data)
-    print(datatosend)
+    #print(datatosend)
 
 
 def main():
@@ -118,7 +119,6 @@ def main():
         except KeyboardInterrupt:
             print("Closing Server")
             closeserver()
-            return
 
 
 if __name__ == "__main__":
