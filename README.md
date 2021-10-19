@@ -1,1 +1,1 @@
-# discord-proxy-server
+# discord_proxy_server
